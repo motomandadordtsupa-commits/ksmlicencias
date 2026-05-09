@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App del Cliente (Prueba de Licencia)</title>
+    <style>
+        body {
+            background-color: #0f1115;
+            color: white;
+            font-family: system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            background: #1a1d24;
+        }
+        h1 { color: #10b981; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>✅ ¡Acceso Concedido!</h1>
+        <p>Esta es tu aplicación funcionando porque tienes una licencia válida.</p>
+        <p>Si cambias el estado a "Bloquear" en el panel, esta pantalla desaparecerá al recargar.</p>
+    </div>
+
+    <!-- Integración del Candado de KSM -->
+    <script type="module">
+        import { verifyLicense } from './client_module/license_checker.js';
+        
+        // Iniciamos la verificación para esta app específica
+        console.log("Iniciando verificación de licencia...");
+        verifyLicense('App de Prueba');
+    </script>
+</body>
+</html>

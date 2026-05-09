@@ -1,0 +1,49 @@
+import { verifyLicense } from './license_checker.js';
+
+// Esto pausa la app.
+// - Si es un cliente nuevo: Le mostrará en pantalla "Ingresa tu Nombre para solicitar acceso".
+// - Si está pendiente: Le dirá "Esperando autorización"
+// - Si ya expiró: Le dirá "Tu licencia expiró el 15/Ago/2026. Contacta a soporte".
+// - Si todo está bien: Deja que la app abra normalmente.
+await verifyLicense('Gran Remate'); 
+
+
+📋 Guía de Integración para Nuevas Aplicaciones
+Para proteger cualquier aplicación nueva (ya sea web, de escritorio con Electron, o móvil con JS), el proceso es muy sencillo:
+
+1. Copia el archivo "Policía"
+Copia tu archivo client_module/license_checker.js a la carpeta de tu nuevo proyecto. Este archivo contiene toda la lógica de conexión y la interfaz de bloqueo.
+
+2. Importa y Activa el Candado
+En el archivo principal de tu aplicación (ej. index.html o main.js), debes llamar a la función verifyLicense.
+
+Ejemplo de uso en un index.html:
+
+html
+<script type="module">
+  import { verifyLicense } from './path/to/license_checker.js';
+  // Solo tienes que cambiar el nombre por el de tu nueva App
+  verifyLicense('Nombre_De_Tu_Nueva_App');
+</script>
+3. Cómo funciona el flujo en cada App:
+Primer inicio: El cliente verá automáticamente la pantalla de registro (porque ese nombre de App aún no existe en tu base de datos para ese HWID).
+Registro: El cliente pone su nombre, la solicitud aparece en tu Dashboard.
+Tu Control: Tú autorizas desde el Dashboard.
+Desbloqueo: Al refrescar, la App del cliente detecta el "OK" de Supabase y quita el bloqueo automáticamente.
+4. Consideración para Aplicaciones de Escritorio (Electron/Node)
+En aplicaciones web, el HWID se guarda en el localStorage. Si vas a crear aplicaciones de escritorio (exe), lo ideal es usar el ID real de la placa base o procesador.
+
+Si necesitas esto, avísame y te daré una pequeña modificación para que license_checker.js lea el ID real del hardware en lugar de uno generado al azar.
+🚀 ¿Qué te gustaría hacer ahora?
+ ¿Quieres que preparemos un archivo README.md con estas instrucciones para que lo tengas guardado?
+ ¿Quieres la modificación para aplicaciones de escritorio (Electron) que detecte el hardware real?
+ ¿O ya te sientes listo para cerrar este proyecto por hoy? 
+
+
+ Cuando conectes el repo a Vercel, el proyecto se detectará automáticamente como Vite.
+
+4. Configurar Variables de Entorno en Vercel (Muy Importante)
+Para que el Dashboard funcione en internet, deberás ir a la pestaña Settings -> Environment Variables en Vercel y copiar las dos líneas de tu archivo .env:
+
+VITE_SUPABASE_URL = (tu url)
+VITE_SUPABASE_ANON_KEY = (tu llave ey...)
